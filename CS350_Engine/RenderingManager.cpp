@@ -596,6 +596,9 @@ void RenderingManager::PostRender(Scene* scene)
  */
 void RenderingManager::RenderObject(const Scene* scene, Object& object, GLuint& lastBindedProgramID)
 {
+   //Turn on wireframe mode
+   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
   // check if last program id is the same as the current id
   if (lastBindedProgramID != object.m_Shader->m_ProgramID)
   {

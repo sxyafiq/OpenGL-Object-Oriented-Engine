@@ -26,6 +26,7 @@ End Header --------------------------------------------------------*/
 class Sphere
 {
 public:
+	Sphere() = default;
   Sphere(glm::vec3 pos, float radius) :
   m_Position(pos),
   m_Radius(radius)

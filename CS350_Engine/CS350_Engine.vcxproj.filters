@@ -87,19 +87,10 @@
     <ClCompile Include="BoundingSphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingHierarchy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AxisAlingedBoundingBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AABB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OctTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BSP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,9 +158,6 @@
     <ClInclude Include="BoundingSphere.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="BoundingHierarchy.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="AxisAlingedBoundingBox.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -195,12 +183,6 @@
       <Filter>Source Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OctTree.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BSP.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

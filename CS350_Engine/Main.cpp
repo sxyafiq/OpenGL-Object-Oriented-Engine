@@ -49,7 +49,7 @@ int main()
   Editor editor;
 
   // initialize engine
-  engine.Init(windowWidth, windowHeight, "CS350 - Engine - Michael Ngo", exitCode);
+  engine.Init(windowWidth, windowHeight, "Assignment 1", exitCode);
 
   // check if glfw window was made
   if (!engine.m_Window)

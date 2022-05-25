@@ -37,12 +37,40 @@ enum SceneIndex
 {
   ZERO,
   ONE,
+  TWO,
+  THREE,
+  FOUR,
+  FIVE,
+  SIX,
+  SEVEN,
+  EIGHT,
+  NINE,
+  TEN,
+  ELEVEN,
+  TWELVE,
+  THIRTEEN,
+  FOURTEEN,
+  FIFTEEN
 };
 
 static const char* const SceneNames[] =
 {
   "ZERO",
   "ONE",
+  "TWO",
+  "THREE",
+  "FOUR",
+  "FIVE",
+  "SIX",
+  "SEVEN",
+  "EIGHT",
+  "NINE",
+  "TEN",
+  "ELEVEN",
+  "TWELVE",
+  "THIRTEEN",
+  "FOURTEEN",
+  "FIFTEEN"
 };
 
 class Scene
@@ -53,17 +81,12 @@ public:
 
   void Update(float deltaTime);
   Object& AddObject();
-  Object& AddLight();
-  void UpdateOctTree();
-  void UpdateBSP();
 
   Camera m_Camera;
   std::vector<Object> m_Objects;
   std::vector<Object> m_Lights;
   bool m_IsDrawingBoundingHierarchy;
   BoundingHierarchy m_BoundingHierarchy;
-  OctTreeNode* m_OctTreeHead;
-  BSPNode* m_BSPHead;
   std::vector<glm::vec3> wholeMeshVert;
   std::vector<glm::uint> wholeMeshIndex;
 private:

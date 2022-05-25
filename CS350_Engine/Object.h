@@ -29,6 +29,20 @@ End Header --------------------------------------------------------*/
 #include "Model.h"
 #include "Shader.h"
 
+
+#include "Collision.h"
+
+enum class CollisionType
+{
+	AABB,
+	Sphere,
+	Point,
+	Triangle,
+	Plane,
+	Ray
+};
+
+
 //! string version of the light types
 static const char* const LightTypeNames[] =
 {
@@ -131,6 +145,7 @@ public:
   void SetRotationVector(const glm::vec3& RotationVector) { m_RotationVector = RotationVector; m_IsDirty = true; }
   void SetRotationAngle(const GLfloat& RotationAngle) { m_RotationAngle = RotationAngle; m_IsDirty = true; }
 
+
   /**
    * @brief 
    *   Calculates the model to world martix
@@ -181,6 +196,9 @@ public:
   bool m_IsRotating;
 private:
   bool m_IsDirty;
+
+
+
 
   glm::vec3 m_ScaleVector;          //!< Scaling Vector
   glm::vec3 m_Centroid;             //!< Position 

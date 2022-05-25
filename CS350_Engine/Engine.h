@@ -26,6 +26,7 @@ End Header --------------------------------------------------------*/
 #include "RenderingManager.h"
 #include "Input.h"
 #include "Debug.h"
+#include "Collision.h"
 
 /**
  * @brief 

@@ -54,6 +54,7 @@ Object::~Object()
 
 void Object::Update(float deltaTime)
 {
+
   if(m_IsRotating)
   {
     m_RotationAngle += m_RotationAmount * deltaTime;
@@ -65,11 +66,13 @@ void Object::Update(float deltaTime)
     m_AABB.Draw({1,1,1});
   }
 
-  if (m_DrawBoundingSphere)
-  {
-    m_BoundingSphere.Update(matrix4(), m_Model->m_Vertices);
-    m_BoundingSphere.Draw();
-  }
+  //Turn off wireframe mode
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  //if (m_DrawBoundingSphere)
+  //{
+  //  m_BoundingSphere.Update(matrix4(), m_Model->m_Vertices);
+  //  m_BoundingSphere.Draw();
+  //}
 }
 
 void Object::SetShader(const ShaderPtr& shader)
@@ -82,9 +85,6 @@ void Object::SetShader(const ShaderPtr& shader)
   m_NormalMatrixUniform = glGetUniformLocation(shader->m_ProgramID, "NormalMatrix");
 
   m_AmbiantColorUniform = glGetUniformLocation(shader->m_ProgramID, "AmbientColor");
-  m_DiffuseColorUniform = glGetUniformLocation(shader->m_ProgramID, "DiffuseColor");
-  m_EmissiveColorUniform = glGetUniformLocation(shader->m_ProgramID, "EmissiveColor");
-  m_SpecularColorUniform = glGetUniformLocation(shader->m_ProgramID, "SpecularColor");
 }
 
 glm::mat4 Object::matrix4(void)

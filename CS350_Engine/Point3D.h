@@ -26,6 +26,8 @@ End Header --------------------------------------------------------*/
 class Point3D
 {
 public:
+	Point3D() = default;
+
   Point3D(glm::vec3 pos):
   m_Position(pos)
   {
