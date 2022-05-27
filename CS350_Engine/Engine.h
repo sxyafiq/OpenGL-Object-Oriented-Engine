@@ -24,6 +24,7 @@ End Header --------------------------------------------------------*/
 #include "AssetManager.h"
 #include "SceneManager.h"
 #include "RenderingManager.h"
+#include "CollisionSystem.h"
 #include "Input.h"
 #include "Debug.h"
 #include "Collision.h"
@@ -68,6 +69,7 @@ public:
   AssetManager m_AssetManager;         //!< asset manager
   SceneManager m_SceneManager;         //!< scene manager
   RenderingManager m_RenderingManager; //!< rendering manager
+  CollisionSystem m_CollisionSystem;
   Input m_Input;                       //!< input manager
   Debug m_Debug;                       //!< debug information manager 
   float m_TimeScale;                   //!< Time scale of the engine

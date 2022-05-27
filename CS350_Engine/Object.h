@@ -170,7 +170,12 @@ public:
   void DrawVertexNormals();
   bool m_DrawVertexNormals;
 
-  std::string m_Name;               //!< Name 
+  std::string m_Name;               //!< Name
+
+
+  std::pair<std::string, ModelPtr> m_ModelPair;
+
+  std::string m_ModelName;			//!< ModelName
   ModelPtr m_Model;                 //!< Model
   ShaderPtr m_Shader;               //!< Shader
 

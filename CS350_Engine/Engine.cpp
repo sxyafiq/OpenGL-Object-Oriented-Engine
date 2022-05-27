@@ -231,6 +231,14 @@ void Engine::PreRender()
     m_IsRunning = false;
   }
 
+  m_CollisionSystem.DoCollision(
+      m_SceneManager.m_CurrentScene->m_Objects[0],
+      m_SceneManager.m_CurrentScene->m_Objects[1]
+  );
+
+
+
+
   // prerender all managers that need too
   m_RenderingManager.PreRender(m_SceneManager.m_CurrentScene);
 }

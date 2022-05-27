@@ -47,6 +47,7 @@ Scene::Scene(SceneIndex number)
   case ONE:
   {
     Object& object1 = AddObject();
+    object1.m_Name = "Sphere";
     object1.m_Model = Engine::get().m_AssetManager.GetModel(Model::Sphere);
     object1.SetShader(Engine::get().m_AssetManager.GetShader(ShaderIndex::DeferredFirstPassShader));
     object1.SetCentroid(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -54,10 +55,11 @@ Scene::Scene(SceneIndex number)
 
 
     Object& object2 = AddObject();
+    object2.m_Name = "Sphere";
     //object2.SetScaleVector({ 0,0,0 });
     object2.m_Model = Engine::get().m_AssetManager.GetModel(Model::Sphere);
     object2.SetShader(Engine::get().m_AssetManager.GetShader(ShaderIndex::DeferredFirstPassShader));
-    object2.SetCentroid(glm::vec3(2.17f, -0.590f, 0.51f));
+    object2.SetCentroid(glm::vec3(2.0f, 0.0f, 0.0f));
     object2.m_Material.ambiant_color = glm::vec3(0.0f, 0.0f, 0.0f);
 
     
