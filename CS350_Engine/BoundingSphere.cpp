@@ -57,10 +57,10 @@ BoundingSphere::~BoundingSphere()
  * @brief 
  *   Requests to debug draw sphere
  */
-void BoundingSphere::Draw()
+void BoundingSphere::Draw(const glm::vec3& color)
 {
   // request sphere
-  Engine::get().m_Debug.drawWorldSphere(m_Center, m_Radius, true);
+  Engine::get().m_Debug.drawWorldSphere(m_Center, m_Radius,color, true);
 }
 
 /**

@@ -34,7 +34,7 @@ Object::Object(const char* name) :
   m_RotationVector(glm::vec3(0.0f, 1.0f, 0.0f)),
   m_RotationAngle(0.0f),
   m_RotationAmount(0.0f),
-  m_DrawAABB(false),
+  m_DrawAABB(true),
   m_DrawBoundingSphere(true),
   m_IsDirty(true),
   m_MVP(),
@@ -54,21 +54,33 @@ Object::~Object()
 
 void Object::Update(float deltaTime)
 {
+    bool isAABB = false;
+    bool isBoundingSphere = false;
   if(m_IsRotating)
   {
     m_RotationAngle += m_RotationAmount * deltaTime;
   }
 
-  if (m_DrawAABB) 
+  if (m_Name == "bunny" || m_Name == "cube" || m_Name == "cube2")
   {
-    m_AABB.Update(matrix4(), m_Model->m_Vertices);
-    m_AABB.Draw({1,1,1});
+      isAABB = true;
+  }
+  if (m_Name == "Sphere")
+  {
+      isBoundingSphere = true;
   }
 
-  if (m_DrawBoundingSphere)
+
+  if (m_DrawAABB && isAABB)
+  {
+    m_AABB.Update(matrix4(), m_Model->m_Vertices);
+    m_AABB.Draw(m_DebugColor);
+  }
+
+  if (m_DrawBoundingSphere && isBoundingSphere)
   {
     m_BoundingSphere.Update(matrix4(), m_Model->m_Vertices);
-    m_BoundingSphere.Draw();
+    m_BoundingSphere.Draw(m_DebugColor);
   }
 }
 

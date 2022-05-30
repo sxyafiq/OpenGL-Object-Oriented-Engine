@@ -138,6 +138,16 @@ void Debug::Init()
       printf("oof %i", error_out);
     }
   }
+
+  //m_ColorUniform = glGetUniformLocation(Engine::get().m_AssetManager.GetShader(ShaderIndex::ColorShader)->m_ProgramID, "uColor");
+  //{
+  //    GLenum error_out;
+  //    while ((error_out = glGetError()) != GL_NO_ERROR)
+  //    {
+  //        __debugbreak();
+  //        printf("oof %i", error_out);
+  //    }
+  //}
 }
 
 /**
@@ -164,6 +174,8 @@ void Debug::Update()
   glUniformMatrix4fv(m_PerspectiveUniform, 1, GL_FALSE, &Engine::get().m_RenderingManager.m_Projection[0][0]);
   glm::mat4 identity(1);
   glUniformMatrix4fv(m_ModelUniform, 1, GL_FALSE, &identity[0][0]);
+
+  //glUniform3f(m_ColorUniform, m_Color.r, m_Color.g, m_Color.b);
 
   GLuint lastBindedEBO = -1;
 
@@ -319,7 +331,7 @@ void Debug::drawWorldRects(const Rect3D &rect, const glm::vec3 & color, bool dep
  * @param depthEnable 
  *   depth dependent
  */
-void Debug::drawWorldSphere(glm::vec3 center, float radius, bool depthEnable)
+void Debug::drawWorldSphere(glm::vec3 center, float radius, const glm::vec3& color, bool depthEnable)
 {
   // grab sphere model
   auto sphere = Engine::get().m_AssetManager.GetModel(Model::Sphere);
@@ -334,7 +346,7 @@ void Debug::drawWorldSphere(glm::vec3 center, float radius, bool depthEnable)
   for(unsigned i = 0; i < sphere->m_Vertices.size(); ++i)
   {
     // add vertex to points, NDC * scale + translate
-    data.points.emplace_back(sphere->m_Vertices[i] * radius + center);
+    data.points.emplace_back(sphere->m_Vertices[i] * radius + center, color);
   }
 
   // Set the ebo of the debug object

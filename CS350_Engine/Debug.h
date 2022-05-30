@@ -138,7 +138,10 @@ public:
   void drawWorldRects(const Rect3D &rect, const glm::vec3& color, bool depthEnable);
 
   // debug draw a sphere in world space
-  void drawWorldSphere(glm::vec3 center, float radius, bool depthEnable);
+  void drawWorldSphere(glm::vec3 center, float radius, const glm::vec3& color, bool depthEnable);
+
+
+  glm::vec3 m_Color;
 
 private:
   std::vector<DrawData> m_Queue; //!< queue of debug objects to draw
@@ -148,6 +151,8 @@ private:
   GLuint m_ViewUniform;        //!< View Uniform
   GLuint m_PerspectiveUniform; //!< Perspective Uniform
   GLuint m_ModelUniform;       //!< Model Uniform
+
+  GLuint m_ColorUniform;
 
 
   GLuint m_EBOStatic3DRect; //!< ebo of a 3d rect

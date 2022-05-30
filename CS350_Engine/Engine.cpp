@@ -237,13 +237,13 @@ void Engine::PreRender()
   m_CollisionSystem.DoCollision(m_SceneManager.m_CurrentScene->m_Objects[0],
       m_SceneManager.m_CurrentScene->m_Objects[1]);
   if (m_CollisionSystem.IsIntersecting()) {
-      m_SceneManager.m_CurrentScene->m_Objects[0].m_Material.ambiant_color = glm::vec3{ 1.f,0.f,0.f };
-      m_SceneManager.m_CurrentScene->m_Objects[1].m_Material.ambiant_color = glm::vec3{ 1.f,0.f,0.f };
+      m_SceneManager.m_CurrentScene->m_Objects[0].m_DebugColor = glm::vec3{ 1.f,0.f,0.f };
+      m_SceneManager.m_CurrentScene->m_Objects[1].m_DebugColor = glm::vec3{ 1.f,0.f,0.f };
   }
   else
   {
-      m_SceneManager.m_CurrentScene->m_Objects[0].m_Material.ambiant_color = glm::vec3{ 0.f,1.f,0.f };
-      m_SceneManager.m_CurrentScene->m_Objects[1].m_Material.ambiant_color = glm::vec3{ 0.f,1.f,0.f };
+      m_SceneManager.m_CurrentScene->m_Objects[0].m_DebugColor = glm::vec3{ 0.f,1.f,0.f };
+      m_SceneManager.m_CurrentScene->m_Objects[1].m_DebugColor = glm::vec3{ 0.f,1.f,0.f };
   }
 
 }

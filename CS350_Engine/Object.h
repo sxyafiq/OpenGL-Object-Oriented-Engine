@@ -174,6 +174,9 @@ public:
   GLint m_EmissiveColorUniform;      //!< Color Uniform
   GLint m_SpecularColorUniform;      //!< Color Uniform
 
+
+  glm::vec3 m_DebugColor{ 0.f,1.f,0.f };
+
   bool m_DrawAABB;                  //!< Whether or not to draw AxisAlingedBoundingBox
   AxisAlingedBoundingBox m_AABB;
   bool m_DrawBoundingSphere;        //!< Whether or not to draw bounding spheres

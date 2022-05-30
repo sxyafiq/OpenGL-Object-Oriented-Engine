@@ -29,6 +29,7 @@ out vec3 color;
 uniform mat4 PerspectiveMatrix;
 uniform mat4 ViewMatrix;
 uniform mat4 ModelMatrix;
+//uniform vec3 uColor;
 
 void main()
 {

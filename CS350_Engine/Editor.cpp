@@ -18,6 +18,7 @@ Project: michael.ngo_CS350_1
 Author: Michael Ngo, michael.ngo, 90003217
 Creation date: 2/2/2020
 End Header --------------------------------------------------------*/
+#include <iostream>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
@@ -181,32 +182,6 @@ void Editor::PostRender()
   }
 
 
-  if (ImGui::Button("Update Oct Tree"))
-  {
-    Engine::get().m_SceneManager.m_CurrentScene->UpdateOctTree();
-  }
-
-  if (Engine::get().m_SceneManager.m_CurrentScene->m_OctTreeHead)
-  {
-
-    if (ImGui::TreeNode("Oct Tree"))
-    {
-      OctTreeRecursion();
-      ImGui::TreePop();
-
-    }
-  }
-
-  if (ImGui::Button("Update BSP"))
-  {
-    Engine::get().m_SceneManager.m_CurrentScene->UpdateBSP();
-  }
-  
-  if (Engine::get().m_SceneManager.m_CurrentScene->m_BSPHead)
-  {
-    if (ImGui::Checkbox("Show BSP", &Engine::get().m_SceneManager.m_CurrentScene->m_BSPHead->showLines)) {}
-  }
-
   if (ImGui::ColorEdit3("Background Color", &Engine::get().m_RenderingManager.m_BackgroundColor[0])) {}
 
   if(ImGui::Checkbox("Depth Copy", &Engine::get().m_RenderingManager.m_DepthCopy)) {}
@@ -223,229 +198,6 @@ void Editor::PostRender()
 
   if(ImGui::Checkbox("Bounding Hierarchy", &Engine::get().m_SceneManager.m_CurrentScene->m_IsDrawingBoundingHierarchy))
   {
-  }
-
-  if (ImGui::Button("Reload Light Shader"))
-  {
-    Engine::get().m_RenderingManager.ReloadShader(ShaderIndex::LightingPass);
-  }
-
-  if (ImGui::TreeNode("Lights"))
-  {
-    // loop through all light objects
-    for (int i = 0; i < Engine::get().m_SceneManager.m_CurrentScene->m_Lights.size(); i++)
-    {
-      Object& light = Engine::get().m_SceneManager.m_CurrentScene->m_Lights[i];
-
-      if (ImGui::TreeNode(&light, "Light Object: [%i]", i))
-      {
-        if (ImGui::Checkbox("Rotates", &light.m_IsRotating))
-        {
-
-        }
-        //if (ImGui::TreeNode("Model"))
-        {
-          bool has_changed = false;
-          int currentindex = (int)light.m_Model->m_ModelIndex;
-          if (ImGui::BeginCombo("Model Name", Model::IndexNames[currentindex].c_str()))
-          {
-            for (std::size_t j = 0; j < Model::IndexNames.size(); ++j)
-            {
-              if (ImGui::Selectable(Model::IndexNames[j].c_str(), currentindex == j))
-              {
-                currentindex = (int)j;
-                has_changed = true;
-              }
-            }
-            ImGui::EndCombo();
-          }
-
-          if (has_changed)
-          {
-            light.m_Model = Engine::get().m_AssetManager.GetModel((Model::Index)currentindex);
-          }
-
-          //ImGui::TreePop();
-        }
-
-        //if (ImGui::TreeNode("Shader"))
-        {
-          bool has_changed = false;
-          int currentindex = (int)light.m_Shader->m_Index;
-          if (ImGui::BeginCombo("Shader Name", ShaderNames[currentindex]))
-          {
-            for (std::size_t j = 0; j < sizeof(ShaderNames) / sizeof(char *); ++j)
-            {
-              if (ImGui::Selectable(ShaderNames[j], currentindex == j))
-              {
-                currentindex = (int)j;
-                has_changed = true;
-              }
-            }
-            ImGui::EndCombo();
-          }
-
-          if (has_changed)
-          {
-            light.m_Shader = Engine::get().m_AssetManager.GetShader((ShaderIndex)currentindex);
-          }
-          //ImGui::TreePop();
-        }
-
-        ImGui::Text("Object Variables");
-        {
-          float tempfloat = light.ScaleVector().x;
-          if (ImGui::DragFloat("Scale Vector", &tempfloat, 0.1f))
-          {
-            light.SetScaleVector({ tempfloat, tempfloat, tempfloat });
-          }
-
-          glm::vec3 tempVector = light.Centroid();
-
-          if (ImGui::DragFloat3("Position Vector", &tempVector[0], 0.1f))
-          {
-            light.SetCentroid(tempVector);
-          }
-
-          tempfloat = light.RotationAngle();
-          if (ImGui::DragFloat("Rotation Angle", &tempfloat, 0.1f))
-          {
-            light.SetRotationAngle(tempfloat);
-          }
-
-          if (ImGui::DragFloat("Rotation Amount", &light.m_RotationAmount, 0.1f))
-          {
-          }
-
-          tempVector = light.RotationVector();
-          if (ImGui::DragFloat3("Rotation Vector", &tempVector[0], 0.1f))
-          {
-            light.SetRotationVector(tempVector);
-          }
-        }
-
-        ImGui::Text("Light Variables"); 
-        {
-          bool has_changed = false;
-          int& currentindex = light.m_Light->type;
-          if (ImGui::BeginCombo("Type", LightTypeNames[currentindex]))
-          {
-            for (std::size_t j = 0; j < sizeof(LightTypeNames) / sizeof(char *); ++j)
-            {
-              if (ImGui::Selectable(LightTypeNames[j], currentindex == j))
-              {
-                currentindex = (int)j;
-                has_changed = true;
-              }
-            }
-            ImGui::EndCombo();
-          }
-
-          if (has_changed)
-          {
-            light.m_Light->type = currentindex;
-          }
-
-          if (ImGui::ColorEdit3("Diffuse", &light.m_Light->diffuse.x)) {}
-          if (ImGui::ColorEdit3("Specular", &light.m_Light->specular.x)) {}
-
-          if (ImGui::ColorEdit3("Ambiant", &light.m_Light->ambiant.x))
-          {
-            light.m_Material.ambiant_color = light.m_Light->ambiant;
-          }
-
-          switch (light.m_Light->type)
-          {
-          case 0: // point
-          {
-            //ImGui::DragFloat3("Position", &light.m_Centroid.x);
-            break;
-          }
-          case 1: // spotlight
-          {
-            //ImGui::DragFloat3("Position", &light.m_Centroid.x);
-            //ImGui::DragFloat3("Rotation Vector", &light.m_RotationVector.x);
-
-            float angledegress = light.RotationAngle();
-            angledegress = glm::degrees(angledegress);
-            if (ImGui::DragFloat("Rotation Angle", &angledegress))
-            {
-              // not sure using deg or rad internally
-              angledegress = glm::radians(angledegress);
-              light.SetRotationAngle(angledegress);
-            }
-
-            angledegress = glm::degrees(light.m_Light->InnerAngle);
-            if (ImGui::DragFloat("Inner Angle", &angledegress))
-            {
-              light.m_Light->InnerAngle = std::min(glm::radians(20.0f), std::max(0.0f, glm::radians(angledegress)));
-            }
-
-            angledegress = glm::degrees(light.m_Light->OuterAngle);
-            if (ImGui::DragFloat("Outer Angle", &angledegress))
-            {
-              light.m_Light->OuterAngle = std::max(glm::radians(20.0f), std::min(glm::radians(40.0f), glm::radians(angledegress)));
-            }
-
-            ImGui::DragFloat("Falloff", &light.m_Light->falloff);
-            break;
-          }
-          case 2: //direction
-          {
-            glm::vec3 rotVec = light.RotationVector();
-            if(ImGui::DragFloat3("Rotation Vector", &rotVec.x))
-            {
-              light.SetRotationVector(rotVec);
-            }
-
-            float angledegress = light.RotationAngle();
-            angledegress = glm::degrees(angledegress);
-            if (ImGui::DragFloat("Rotation Angle", &angledegress))
-            {
-              // not sure using deg or rad internally
-              angledegress = glm::radians(angledegress);
-              light.SetRotationAngle(angledegress);
-            }
-            break;
-          }
-          default:
-          {
-            break;
-          }
-          }
-        }
-        ImGui::TreePop();
-      }
-    }
-
-    ImGui::Text("Global Light Variables");
-    {
-      LightData &LightData = Engine::get().m_RenderingManager.m_Lights;
-
-      ImGui::DragFloat("Attenuation Constant", &LightData.constant);
-      ImGui::DragFloat("Attenuation Linear", &LightData.linear);
-      ImGui::DragFloat("Attenuation Quadratic", &LightData.quadratic);
-
-      ImGui::ColorEdit3("Global Ambient", &LightData.GlobalAmbient.x);
-      ImGui::ColorEdit3("Global Atmospheric", &LightData.Atmospheric.x);
-
-      if (ImGui::DragFloat("Z Far", &LightData.ZFar))
-      {
-        LightData.ZFar = std::max(LightData.ZFar, LightData.ZNear);
-      }
-
-      if (ImGui::DragFloat("Z Near", &LightData.ZNear))
-      {
-        LightData.ZNear = std::max(0.0001f, std::min(LightData.ZFar, LightData.ZNear));
-      }
-
-      if (ImGui::ColorEdit4("Fog", &LightData.IFog.x))
-      {
-      }
-    }
-    
-
-    ImGui::TreePop();
   }
 
   if (ImGui::ColorEdit3("Debug Normal Face Color", &Engine::get().m_RenderingManager.m_NormalColorFace[0])){}
@@ -488,6 +240,8 @@ void Editor::PostRender()
           if (has_changed)
           {
             object.m_Model = Engine::get().m_AssetManager.GetModel((Model::Index)currentindex);
+            object.m_Name = Model::IndexNames[currentindex];
+            std::cout << object.m_Name << std::endl;
           }
 
           //ImGui::TreePop();
@@ -592,10 +346,234 @@ void Editor::PostRender()
         ImGui::TreePop();
       }
     }
-
-
     ImGui::TreePop();
+
+
+
   }
+
+  //if (ImGui::Button("Reload Light Shader"))
+  //{
+  //    Engine::get().m_RenderingManager.ReloadShader(ShaderIndex::LightingPass);
+  //}
+
+  //if (ImGui::TreeNode("Lights"))
+  //{
+  //    // loop through all light objects
+  //    for (int i = 0; i < Engine::get().m_SceneManager.m_CurrentScene->m_Lights.size(); i++)
+  //    {
+  //        Object& light = Engine::get().m_SceneManager.m_CurrentScene->m_Lights[i];
+
+  //        if (ImGui::TreeNode(&light, "Light Object: [%i]", i))
+  //        {
+  //            if (ImGui::Checkbox("Rotates", &light.m_IsRotating))
+  //            {
+
+  //            }
+  //            //if (ImGui::TreeNode("Model"))
+  //            {
+  //                bool has_changed = false;
+  //                int currentindex = (int)light.m_Model->m_ModelIndex;
+  //                if (ImGui::BeginCombo("Model Name", Model::IndexNames[currentindex].c_str()))
+  //                {
+  //                    for (std::size_t j = 0; j < Model::IndexNames.size(); ++j)
+  //                    {
+  //                        if (ImGui::Selectable(Model::IndexNames[j].c_str(), currentindex == j))
+  //                        {
+  //                            currentindex = (int)j;
+  //                            has_changed = true;
+  //                        }
+  //                    }
+  //                    ImGui::EndCombo();
+  //                }
+
+  //                if (has_changed)
+  //                {
+  //                    light.m_Model = Engine::get().m_AssetManager.GetModel((Model::Index)currentindex);
+  //                }
+
+  //                //ImGui::TreePop();
+  //            }
+
+  //            //if (ImGui::TreeNode("Shader"))
+  //            {
+  //                bool has_changed = false;
+  //                int currentindex = (int)light.m_Shader->m_Index;
+  //                if (ImGui::BeginCombo("Shader Name", ShaderNames[currentindex]))
+  //                {
+  //                    for (std::size_t j = 0; j < sizeof(ShaderNames) / sizeof(char*); ++j)
+  //                    {
+  //                        if (ImGui::Selectable(ShaderNames[j], currentindex == j))
+  //                        {
+  //                            currentindex = (int)j;
+  //                            has_changed = true;
+  //                        }
+  //                    }
+  //                    ImGui::EndCombo();
+  //                }
+
+  //                if (has_changed)
+  //                {
+  //                    light.m_Shader = Engine::get().m_AssetManager.GetShader((ShaderIndex)currentindex);
+  //                }
+  //                //ImGui::TreePop();
+  //            }
+
+  //            ImGui::Text("Object Variables");
+  //            {
+  //                float tempfloat = light.ScaleVector().x;
+  //                if (ImGui::DragFloat("Scale Vector", &tempfloat, 0.1f))
+  //                {
+  //                    light.SetScaleVector({ tempfloat, tempfloat, tempfloat });
+  //                }
+
+  //                glm::vec3 tempVector = light.Centroid();
+
+  //                if (ImGui::DragFloat3("Position Vector", &tempVector[0], 0.1f))
+  //                {
+  //                    light.SetCentroid(tempVector);
+  //                }
+
+  //                tempfloat = light.RotationAngle();
+  //                if (ImGui::DragFloat("Rotation Angle", &tempfloat, 0.1f))
+  //                {
+  //                    light.SetRotationAngle(tempfloat);
+  //                }
+
+  //                if (ImGui::DragFloat("Rotation Amount", &light.m_RotationAmount, 0.1f))
+  //                {
+  //                }
+
+  //                tempVector = light.RotationVector();
+  //                if (ImGui::DragFloat3("Rotation Vector", &tempVector[0], 0.1f))
+  //                {
+  //                    light.SetRotationVector(tempVector);
+  //                }
+  //            }
+
+  //            ImGui::Text("Light Variables");
+  //            {
+  //                bool has_changed = false;
+  //                int& currentindex = light.m_Light->type;
+  //                if (ImGui::BeginCombo("Type", LightTypeNames[currentindex]))
+  //                {
+  //                    for (std::size_t j = 0; j < sizeof(LightTypeNames) / sizeof(char*); ++j)
+  //                    {
+  //                        if (ImGui::Selectable(LightTypeNames[j], currentindex == j))
+  //                        {
+  //                            currentindex = (int)j;
+  //                            has_changed = true;
+  //                        }
+  //                    }
+  //                    ImGui::EndCombo();
+  //                }
+
+  //                if (has_changed)
+  //                {
+  //                    light.m_Light->type = currentindex;
+  //                }
+
+  //                if (ImGui::ColorEdit3("Diffuse", &light.m_Light->diffuse.x)) {}
+  //                if (ImGui::ColorEdit3("Specular", &light.m_Light->specular.x)) {}
+
+  //                if (ImGui::ColorEdit3("Ambiant", &light.m_Light->ambiant.x))
+  //                {
+  //                    light.m_Material.ambiant_color = light.m_Light->ambiant;
+  //                }
+
+  //                switch (light.m_Light->type)
+  //                {
+  //                case 0: // point
+  //                {
+  //                    //ImGui::DragFloat3("Position", &light.m_Centroid.x);
+  //                    break;
+  //                }
+  //                case 1: // spotlight
+  //                {
+  //                    //ImGui::DragFloat3("Position", &light.m_Centroid.x);
+  //                    //ImGui::DragFloat3("Rotation Vector", &light.m_RotationVector.x);
+
+  //                    float angledegress = light.RotationAngle();
+  //                    angledegress = glm::degrees(angledegress);
+  //                    if (ImGui::DragFloat("Rotation Angle", &angledegress))
+  //                    {
+  //                        // not sure using deg or rad internally
+  //                        angledegress = glm::radians(angledegress);
+  //                        light.SetRotationAngle(angledegress);
+  //                    }
+
+  //                    angledegress = glm::degrees(light.m_Light->InnerAngle);
+  //                    if (ImGui::DragFloat("Inner Angle", &angledegress))
+  //                    {
+  //                        light.m_Light->InnerAngle = std::min(glm::radians(20.0f), std::max(0.0f, glm::radians(angledegress)));
+  //                    }
+
+  //                    angledegress = glm::degrees(light.m_Light->OuterAngle);
+  //                    if (ImGui::DragFloat("Outer Angle", &angledegress))
+  //                    {
+  //                        light.m_Light->OuterAngle = std::max(glm::radians(20.0f), std::min(glm::radians(40.0f), glm::radians(angledegress)));
+  //                    }
+
+  //                    ImGui::DragFloat("Falloff", &light.m_Light->falloff);
+  //                    break;
+  //                }
+  //                case 2: //direction
+  //                {
+  //                    glm::vec3 rotVec = light.RotationVector();
+  //                    if (ImGui::DragFloat3("Rotation Vector", &rotVec.x))
+  //                    {
+  //                        light.SetRotationVector(rotVec);
+  //                    }
+
+  //                    float angledegress = light.RotationAngle();
+  //                    angledegress = glm::degrees(angledegress);
+  //                    if (ImGui::DragFloat("Rotation Angle", &angledegress))
+  //                    {
+  //                        // not sure using deg or rad internally
+  //                        angledegress = glm::radians(angledegress);
+  //                        light.SetRotationAngle(angledegress);
+  //                    }
+  //                    break;
+  //                }
+  //                default:
+  //                {
+  //                    break;
+  //                }
+  //                }
+  //            }
+  //            ImGui::TreePop();
+  //        }
+  //    }
+
+  //    ImGui::Text("Global Light Variables");
+  //    {
+  //        LightData& LightData = Engine::get().m_RenderingManager.m_Lights;
+
+  //        ImGui::DragFloat("Attenuation Constant", &LightData.constant);
+  //        ImGui::DragFloat("Attenuation Linear", &LightData.linear);
+  //        ImGui::DragFloat("Attenuation Quadratic", &LightData.quadratic);
+
+  //        ImGui::ColorEdit3("Global Ambient", &LightData.GlobalAmbient.x);
+  //        ImGui::ColorEdit3("Global Atmospheric", &LightData.Atmospheric.x);
+
+  //        if (ImGui::DragFloat("Z Far", &LightData.ZFar))
+  //        {
+  //            LightData.ZFar = std::max(LightData.ZFar, LightData.ZNear);
+  //        }
+
+  //        if (ImGui::DragFloat("Z Near", &LightData.ZNear))
+  //        {
+  //            LightData.ZNear = std::max(0.0001f, std::min(LightData.ZFar, LightData.ZNear));
+  //        }
+
+  //        if (ImGui::ColorEdit4("Fog", &LightData.IFog.x))
+  //        {
+  //        }
+  //    }
+
+
+  //    ImGui::TreePop();
+  //}
 
   ImGui::End();
   ImGui::Render();

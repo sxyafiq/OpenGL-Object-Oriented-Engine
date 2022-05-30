@@ -52,7 +52,7 @@ public:
   ~BoundingSphere();
 
   // Requests to debug draw sphere
-  void Draw();
+  void Draw(const glm::vec3& color);
 
   // Reset bounding information
   void Clear();
