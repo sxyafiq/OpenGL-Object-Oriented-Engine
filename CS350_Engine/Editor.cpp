@@ -295,30 +295,30 @@ void Editor::PostRender()
         ImGui::Text("Object Variables");
         {
           float tempfloat = light.ScaleVector().x;
-          if (ImGui::DragFloat("Scale Vector", &tempfloat))
+          if (ImGui::DragFloat("Scale Vector", &tempfloat, 0.1f))
           {
             light.SetScaleVector({ tempfloat, tempfloat, tempfloat });
           }
 
           glm::vec3 tempVector = light.Centroid();
 
-          if (ImGui::DragFloat3("Position Vector", &tempVector[0]))
+          if (ImGui::DragFloat3("Position Vector", &tempVector[0], 0.1f))
           {
             light.SetCentroid(tempVector);
           }
 
           tempfloat = light.RotationAngle();
-          if (ImGui::DragFloat("Rotation Angle", &tempfloat))
+          if (ImGui::DragFloat("Rotation Angle", &tempfloat, 0.1f))
           {
             light.SetRotationAngle(tempfloat);
           }
 
-          if (ImGui::DragFloat("Rotation Amount", &light.m_RotationAmount))
+          if (ImGui::DragFloat("Rotation Amount", &light.m_RotationAmount, 0.1f))
           {
           }
 
           tempVector = light.RotationVector();
-          if (ImGui::DragFloat3("Rotation Vector", &tempVector[0]))
+          if (ImGui::DragFloat3("Rotation Vector", &tempVector[0], 0.1f))
           {
             light.SetRotationVector(tempVector);
           }
@@ -522,29 +522,29 @@ void Editor::PostRender()
           float tempfloat;
 
           tempfloat = object.ScaleVector().x;
-          if (ImGui::DragFloat("Scale Vector", &tempfloat))
+          if (ImGui::DragFloat("Scale Vector", &tempfloat, 0.1f))
           {
             object.SetScaleVector({ tempfloat, tempfloat, tempfloat });
           }
 
           tempVector = object.Centroid();
-          if (ImGui::DragFloat3("Position Vector", &tempVector[0]))
+          if (ImGui::DragFloat3("Position Vector", &tempVector[0], 0.1f))
           {
             object.SetCentroid(tempVector);
           }
 
           tempfloat = object.RotationAngle();
-          if (ImGui::DragFloat("Rotation Angle", &tempfloat))
+          if (ImGui::DragFloat("Rotation Angle", &tempfloat, 0.1f))
           {
             object.SetRotationAngle(tempfloat);
           }
 
-          if (ImGui::DragFloat("Rotation Amount", &object.m_RotationAmount))
+          if (ImGui::DragFloat("Rotation Amount", &object.m_RotationAmount, 0.1f))
           {
           }
 
           tempVector = object.RotationVector();
-          if (ImGui::DragFloat3("Rotation Vector", &tempVector[0]))
+          if (ImGui::DragFloat3("Rotation Vector", &tempVector[0], 0.1f))
           {
             object.SetRotationVector(tempVector);
           }

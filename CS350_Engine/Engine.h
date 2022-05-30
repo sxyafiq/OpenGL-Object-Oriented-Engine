@@ -24,6 +24,7 @@ End Header --------------------------------------------------------*/
 #include "AssetManager.h"
 #include "SceneManager.h"
 #include "RenderingManager.h"
+#include "CollisionSystem.h"
 #include "Input.h"
 #include "Debug.h"
 
@@ -66,6 +67,8 @@ public:
   bool m_IsRunning;                    //!< should the engine shutdown
   AssetManager m_AssetManager;         //!< asset manager
   SceneManager m_SceneManager;         //!< scene manager
+  CollisionSystem m_CollisionSystem;
+
   RenderingManager m_RenderingManager; //!< rendering manager
   Input m_Input;                       //!< input manager
   Debug m_Debug;                       //!< debug information manager 

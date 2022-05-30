@@ -46,49 +46,20 @@ Scene::Scene(SceneIndex number)
   case ONE:
   {
     Object& object1 = AddObject();
+    object1.m_Name = "Sphere";
     object1.m_Model = Engine::get().m_AssetManager.GetModel(Model::Cube);
     object1.SetShader(Engine::get().m_AssetManager.GetShader(ShaderIndex::DeferredFirstPassShader));
-    object1.SetCentroid(glm::vec3(0.0f, 0.0f, 0.0f));
+    object1.SetCentroid(glm::vec3(-1.0f, 0.0f, -1.0f));
     object1.m_Material.ambiant_color = glm::vec3(1.0f, 0.3f, 1.0f);
 
     Object& object2 = AddObject();
     //object2.SetScaleVector({ 0,0,0 });
+    object2.m_Name = "Sphere";
     object2.m_Model = Engine::get().m_AssetManager.GetModel(Model::Cube);
     object2.SetShader(Engine::get().m_AssetManager.GetShader(ShaderIndex::DeferredFirstPassShader));
-    object2.SetCentroid(glm::vec3(2.17f, -0.590f, 0.51f));
+    object2.SetCentroid(glm::vec3(1.0f, 0.0f, -1.0f));
     object2.m_Material.ambiant_color = glm::vec3(0.4f, 1.0f, 1.0f);
 
-
-    Object& object3 = AddObject();
-    //object3.SetScaleVector({ 0,0,0 });
-    object3.m_Model = Engine::get().m_AssetManager.GetModel(Model::Cube);
-    object3.SetShader(Engine::get().m_AssetManager.GetShader(ShaderIndex::DeferredFirstPassShader));
-    object3.SetCentroid(glm::vec3(-1.690f, 0.88f, -0.870f));
-    object3.m_Material.ambiant_color = glm::vec3(1.0f, 1.0f, 0.0f);
-
-    Object& object4 = AddObject();
-    //object4.SetScaleVector({ 0,0,0 });
-    object4.m_Model = Engine::get().m_AssetManager.GetModel(Model::Cube);
-    object4.SetShader(Engine::get().m_AssetManager.GetShader(ShaderIndex::DeferredFirstPassShader));
-    object4.SetCentroid(glm::vec3(-0.60f, -0.430f, 0.310f));
-    object4.m_Material.ambiant_color = glm::vec3(1.0f, 1.0f, 1.0f);
-
-    for (int i = 0; i < 6; i++)
-    {
-      float hue = 360.0f * ((float)rand() / (float)RAND_MAX - 0.5f) * 8;
-      Object& light1 = AddLight();
-      light1.m_Model = Engine::get().m_AssetManager.GetModel(Model::Sphere);
-      light1.SetShader(Engine::get().m_AssetManager.GetShader(ShaderIndex::LightShader));
-      light1.SetCentroid(glm::vec3(0.0f, 0.0f, 0.0f));
-      light1.SetScaleVector(glm::vec3(.1f));
-      light1.m_Material.ambiant_color = glm::rgbColor(glm::vec3(hue, 1.0f, 0.5f));
-      light1.m_RotationAmount = 3.14159f / 4.0f;
-      light1.m_Light = new Light();
-      light1.m_Light->ambiant = glm::rgbColor(glm::vec3(hue, 1.0f, 0.5f));
-      light1.m_Light->diffuse = glm::rgbColor(glm::vec3(hue, 1.0f, 1.0f));
-      light1.m_Light->type = 0;
-      light1.m_IsRotating = true;
-    }
     
     break;
   }
